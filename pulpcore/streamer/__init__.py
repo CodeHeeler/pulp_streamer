@@ -7,5 +7,5 @@ handler = Handler()
 
 async def server(*args, **kwargs):
     app = web.Application()
-    app.add_routes([web.get('/', handler.ok)])
+    app.add_routes([web.get('/streamer/{path:.+}', handler.stream_content)])
     return app
