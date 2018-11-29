@@ -101,6 +101,39 @@ class Handler:
             ))
             raise PathNotResolved(path)
 
+    @staticmethod
+    def _permit(request, distribution):
+        """
+        Permit the request.
+
+        Authorization is delegated to the optional content-guard associated with the distribution.
+
+        Args:
+            request (:class:`django.http.HttpRequest`): A request for a published file.
+            distribution (:class:`pulpcore.plugin.models.Distribution`): The matched distribution.
+
+        Raises:
+            PermissionError: When not permitted.
+        """
+        guard = distribution.content_guard
+        if not guard:
+            return
+        try:
+            guard.cast().permit(request)
+        except PermissionError as pe:
+            log.debug(
+                _('Path: %(p)s not permitted by guard: "%(g)s" reason: %(r)s'),
+                {
+                    'p': request.path,
+                    'g': guard.name,
+                    'r': str(pe)
+                })
+            raise
+        except Exception:
+            reason = _('Guard "{g}" failed:').format(g=guard.name)
+            log.debug(reason, exc_info=True)
+            raise PermissionError(reason)
+
     async def _match_and_stream(self, path, request):
         """
         Match the path and stream results either from the filesystem or by downloading new data.
@@ -111,12 +144,14 @@ class Handler:
 
         Raises:
             PathNotResolved: The path could not be matched to a published file.
+            PermissionError: When not permitted.
 
         Returns:
             :class:`aiohttp.web.StreamResponse` or :class:`aiohttp.web.FileResponse`: The response
                 streamed back to the client.
         """
         distribution = Handler._match_distribution(path)
+        Handler._permit(request, distribution)
         publication = distribution.publication
         if not publication:
             raise PathNotResolved(path)
