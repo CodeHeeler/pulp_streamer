@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = python -msphinx
-SPHINXPROJ    = pulp_streamer
+SPHINXPROJ    = pulpcore-content
 SOURCEDIR     = .
 BUILDDIR      = _build
 

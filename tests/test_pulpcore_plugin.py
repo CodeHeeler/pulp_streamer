@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for `pulp_streamer` package."""
+"""Tests for `pulpcore.content` package."""
 
 import pytest
 
 from click.testing import CliRunner
 
-from pulp_streamer import pulp_streamer
-from pulp_streamer import cli
+from pulpcore import content
+from pulpcore.content import cli
 
 
 @pytest.fixture
@@ -32,7 +32,7 @@ def test_command_line_interface():
     runner = CliRunner()
     result = runner.invoke(cli.main)
     assert result.exit_code == 0
-    assert 'pulp_streamer.cli.main' in result.output
+    assert 'pulpcore.content.cli.main' in result.output
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
     assert '--help  Show this message and exit.' in help_result.output

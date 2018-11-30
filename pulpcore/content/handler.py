@@ -8,7 +8,7 @@ django.setup()
 from aiohttp import web
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.db import transaction
-from pulpcore.app.models import Artifact, ContentArtifact, Distribution
+from pulpcore.app.models import Artifact, ContentArtifact, Distribution, Remote
 
 
 log = logging.getLogger(__name__)
@@ -45,14 +45,14 @@ class Handler:
 
     async def stream_content(self, request):
         """
-        The request handler for the streamer.
+        The request handler for the Content app.
 
         Args:
-            request (:class:`aiohttp.web.request`): The request to the streamer from the client.
+            request (:class:`aiohttp.web.request`): The request from the client.
 
         Returns:
             :class:`aiohttp.web.StreamResponse` or :class:`aiohttp.web.FileResponse`: The response
-                streamed back to the client.
+                back to the client.
         """
         path = request.match_info['path']
         return await self._match_and_stream(path, request)
@@ -222,11 +222,11 @@ class Handler:
 
         async def handle_data(data):
             await response.write(data)
-            if remote.policy != 'cache_only':
+            if remote.policy != Remote.STREAMED:
                 await original_handle_data(data)
 
         async def finalize():
-            if remote.policy != 'cache_only':
+            if remote.policy != Remote.STREAMED:
                 await original_finalize()
 
         downloader = remote.get_downloader(remote_artifact=remote_artifact,
@@ -236,7 +236,7 @@ class Handler:
         original_finalize = downloader.finalize
         downloader.finalize = finalize
         download_result = await downloader.run()
-        if remote.policy != 'cache_only':
+        if remote.policy != Remote.STREAMED:
             with transaction.atomic():
                 new_artifact = Artifact(
                     **download_result.artifact_attributes,

@@ -1,4 +1,4 @@
-* pulp-streamer version:
+* pulpcore-content version:
 * Python version:
 * Operating System:
 

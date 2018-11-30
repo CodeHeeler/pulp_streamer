@@ -8,13 +8,13 @@ Installation
 Stable release
 --------------
 
-To install pulp-streamer, run this command in your terminal:
+To install pulpcore-content, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip install pulp_streamer
+    $ pip install pulpcore-content
 
-This is the preferred method to install pulp-streamer, as it will always install the most recent stable release.
+This is the preferred method to install pulpcore-content, as it will always install the most recent stable release.
 
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
 you through the process.
@@ -26,19 +26,19 @@ you through the process.
 From sources
 ------------
 
-The sources for pulp-streamer can be downloaded from the `Github repo`_.
+The sources for pulpcore-content can be downloaded from the `Github repo`_.
 
 You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/pulp/pulp_streamer
+    $ git clone git://github.com/pulp/pulpcore-content
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/pulp/pulp_streamer/tarball/master
+    $ curl  -OL https://github.com/pulp/pulpcore-content/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/pulp/pulp_streamer
-.. _tarball: https://github.com/pulp/pulp_streamer/tarball/master
+.. _Github repo: https://github.com/pulp/pulpcore-content
+.. _tarball: https://github.com/pulp/pulpcore-content/tarball/master

@@ -1,5 +1,5 @@
 =============
-pulp-streamer
+pulpcore-content
 =============
 
 

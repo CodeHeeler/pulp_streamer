@@ -1,5 +1,5 @@
-Welcome to pulp-streamer's documentation!
-======================================
+Welcome to pulpcore-content's documentation!
+============================================
 
 .. toctree::
    :maxdepth: 2
